@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Añadir NIF en el reporte de pedidos de venta -->
+    <template id="report_sale_nif" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//p[@t-if='doc.partner_id.vat']" position="after">
+            <p t-if="doc.partner_id.nif" class="mb-0">NIF: <span t-field="doc.partner_id.nif"/></p>
+        </xpath>
+    </template>
+</odoo>
