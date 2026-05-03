@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Columna Nº Cajas en el formulario del pedido de venta -->
+    <record id="view_order_form_virtual_boxes" model="ir.ui.view">
+        <field name="name">sale.order.form.virtual_boxes</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
+                <field name="num_boxes" string="Nº Cajas"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas (total) en el formulario del albarán -->
+    <record id="view_picking_form_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.picking.form.virtual_boxes</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids']//list//field[@name='product_uom_qty']" position="after">
+                <field name="num_boxes" string="Nº Cajas" readonly="1"
+                       help="Total indicativo desde el pedido. Introduce las cajas por lote en Detalles."/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas EDITABLE por lote en la lista dentro del popup de detalles -->
+    <record id="view_stock_move_line_operation_tree_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.move.line.operation.tree.virtual_boxes</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='quantity']" position="after">
+                <field name="num_boxes" string="Nº Cajas"
+                       readonly="state == 'done' and is_locked"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas editable en Operación Detallada (botón en albarán) -->
+    <record id="view_move_line_detailed_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.list.virtual_boxes</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='quantity']" position="after">
+                <field name="num_boxes" string="Nº Cajas"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas en la lista de Análisis de Movimientos (stock.move) -->
+    <record id="view_move_tree_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.move.list.virtual_boxes</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="num_boxes" string="Nº Cajas" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Medida Nº Cajas en el pivot de Análisis de Stock -->
+    <record id="view_move_pivot_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.move.pivot.virtual_boxes</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="num_boxes" type="measure" string="Nº Cajas"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas en líneas de factura contable -->
+    <record id="view_move_form_virtual_boxes" model="ir.ui.view">
+        <field name="name">account.move.form.virtual_boxes</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Columna Nº Cajas después de Cantidad en líneas de factura -->
+            <xpath expr="//field[@name='invoice_line_ids']//list//field[@name='quantity']" position="after">
+                <field name="num_boxes" string="Nº Cajas" optional="show"
+                       column_invisible="parent.move_type == 'entry'"/>
+            </xpath>
+            <!-- Totales: Unidades y Cajas encima de los importes -->
+            <xpath expr="//field[@name='tax_totals']" position="before">
+                <div class="d-flex gap-4 mb-2"
+                     invisible="move_type not in ('out_invoice','out_refund','in_invoice','in_refund','out_receipt','in_receipt')">
+                    <span><strong>Total Unidades:</strong>
+                        <field name="total_quantity" readonly="1" nolabel="1" class="ms-1"/>
+                    </span>
+                    <span><strong>Total Cajas:</strong>
+                        <field name="total_boxes" readonly="1" nolabel="1" class="ms-1"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas en vista simple de stock -->
+    <record id="view_stock_quant_tree_simple_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.quant.list.simple.virtual_boxes</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_simple"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='quantity']" position="after">
+                <field name="num_boxes" string="Nº Cajas"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Columna Nº Cajas en Ubicaciones (Inventario → Reportes → Ubicaciones) -->
+    <record id="view_stock_quant_tree_editable_virtual_boxes" model="ir.ui.view">
+        <field name="name">stock.quant.list.editable.virtual_boxes</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inventory_quantity_auto_apply']" position="after">
+                <field name="num_boxes" string="Nº Cajas"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

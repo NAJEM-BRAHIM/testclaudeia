@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Añade columna "Nº Cajas" en el informe de pedido de venta.
+        Este template hereda report_saleorder_document, que es utilizado tanto
+        por el pedido de venta como por la factura pro forma.
+    -->
+    <template id="report_saleorder_virtual_boxes" inherit_id="sale.report_saleorder_document">
+        <!-- Cabecera de la tabla -->
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_boxes" class="text-end text-nowrap">Nº Cajas</th>
+        </xpath>
+        <!-- Celda de datos por línea -->
+        <xpath expr="//td[@name='td_product_quantity']" position="after">
+            <td name="td_product_boxes" class="text-end">
+                <span t-if="line.num_boxes" t-out="line.num_boxes"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account_move_virtualbox_form" model="ir.ui.view">
+		<field name="name">account.move.virtualbox.form</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">            			
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/list/field[@name='product_uom_id']" position="after">
+				<field name='virtual_box' optional="show"/>
+            </xpath>
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/form/sheet/group/field[@name='product_uom_id']" position="after">
+				<field name='virtual_box' invisible="1"/>
+            </xpath>
+            <xpath expr="//notebook/page[@id='aml_tab']/field[@name='line_ids']/form/group/field[@name='name']" position="after">
+				<field name='virtual_box' invisible="1"/>
+            </xpath>
+            <!-- Totales después del campo invoice_line_ids (en account.move) -->
+            <xpath expr="//notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']" position="after">
+                <group>
+                    <group string="Totales Cajas/Unidades" col="2">
+                        <field name="total_quantity" readonly="1" string="Total Unidades"/>
+                        <field name="total_virtual_box" readonly="1" string="Total Cajas"/>
+                    </group>
+                </group>
+            </xpath>
+		</field>
+	</record>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Añade Total Unidades y Total Cajas al pie de la factura,
+        justo después de la tabla de líneas.
+    -->
+    <template id="report_invoice_virtual_boxes" inherit_id="account.report_invoice_document">
+        <xpath expr="//table[@name='invoice_line_table']" position="after">
+            <t t-set="vb_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')"/>
+            <t t-set="vb_total_qty" t-value="sum(vb_lines.mapped('quantity'))"/>
+            <t t-set="vb_total_boxes" t-value="sum(vb_lines.mapped('num_boxes'))"/>
+            <table class="table table-sm table-borderless mt-2 mb-0 w-auto">
+                <tr>
+                    <td class="text-muted pe-4 fw-bold">Total Unidades:</td>
+                    <td class="pe-5 fw-bold">
+                        <span t-out="'%.2f' % vb_total_qty"/>
+                    </td>
+                    <td class="text-muted pe-4 fw-bold">Total Cajas:</td>
+                    <td class="fw-bold">
+                        <span t-out="vb_total_boxes"/>
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </template>
+</odoo>
