@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_search_form_view_stock_virtualbox_report" model="ir.ui.view" >
+        <field name="name">product.search.form.view.stock.virtualbox.report</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_stock_tree"/>
+        <field name="arch" type="xml">
+            <field name="qty_available" position="after">
+                <field name='virtual_box' optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>
