@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Logo a la DERECHA — Dirección empresa a la IZQUIERDA
+        Aplica a todos los layouts de Odoo (striped, boxed, bold, standard, folder, wave)
+        El layout "bubble" ya tiene el logo a la derecha por defecto.
+    -->
+
+    <!-- ════════════════════════════════════════════
+         Layout: STRIPED
+         Antes: [LOGO izq] [DIRECCIÓN der]
+         Después: [DIRECCIÓN izq] [LOGO der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_striped_logo_right" inherit_id="web.external_layout_striped">
+        <xpath expr="//div[hasclass('d-flex')]" position="attributes">
+            <attribute name="class">d-flex flex-row-reverse</attribute>
+        </xpath>
+        <xpath expr="//div[@name='company_address']" position="attributes">
+            <attribute name="class">w-50 me-3</attribute>
+        </xpath>
+    </template>
+
+    <!-- ════════════════════════════════════════════
+         Layout: BOXED
+         Antes: [LOGO col-4 izq] [DIRECCIÓN col-8 der]
+         Después: [DIRECCIÓN col-8 izq] [LOGO col-4 der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_boxed_logo_right" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[hasclass('row') and hasclass('mb8')]" position="attributes">
+            <attribute name="class">row mb8 flex-row-reverse</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('col-8') and hasclass('text-end')]" position="attributes">
+            <attribute name="class">col-8 text-start mb4</attribute>
+        </xpath>
+    </template>
+
+    <!-- ════════════════════════════════════════════
+         Layout: BOLD
+         Antes: [LOGO col-6 izq] [DIRECCIÓN col-5 der]
+         Después: [DIRECCIÓN col-5 izq] [LOGO col-6 der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_bold_logo_right" inherit_id="web.external_layout_bold">
+        <xpath expr="//div[hasclass('row')]" position="attributes">
+            <attribute name="class">row flex-row-reverse</attribute>
+        </xpath>
+    </template>
+
+    <!-- ════════════════════════════════════════════
+         Layout: STANDARD
+         Antes: [LOGO pequeño izq] [Tagline der]
+         Después: [Tagline izq] [LOGO pequeño der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_standard_logo_right" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[hasclass('d-flex') and hasclass('justify-content-between')]" position="attributes">
+            <attribute name="class">d-flex flex-row-reverse justify-content-between align-items-center mb-2</attribute>
+        </xpath>
+    </template>
+
+    <!-- ════════════════════════════════════════════
+         Layout: FOLDER
+         Antes: [LOGO izq] [DIRECCIÓN der]
+         Después: [DIRECCIÓN izq] [LOGO der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_folder_logo_right" inherit_id="web.external_layout_folder">
+        <xpath expr="//div[hasclass('o_folder_company_info')]" position="attributes">
+            <attribute name="class">o_folder_company_info d-flex flex-row-reverse justify-content-between</attribute>
+        </xpath>
+        <xpath expr="//div[@name='company_address']" position="attributes">
+            <attribute name="class">w-50 text-start</attribute>
+        </xpath>
+    </template>
+
+    <!-- ════════════════════════════════════════════
+         Layout: WAVE
+         Antes: [LOGO izq] [DIRECCIÓN der]
+         Después: [DIRECCIÓN izq] [LOGO der]
+    ════════════════════════════════════════════ -->
+    <template id="external_layout_wave_logo_right" inherit_id="web.external_layout_wave">
+        <xpath expr="//div[hasclass('d-flex') and hasclass('justify-content-between')]" position="attributes">
+            <attribute name="class">d-flex flex-row-reverse justify-content-between</attribute>
+        </xpath>
+        <xpath expr="//div[@name='company_address']" position="attributes">
+            <attribute name="class">w-50 text-start</attribute>
+        </xpath>
+    </template>
+
+</odoo>
