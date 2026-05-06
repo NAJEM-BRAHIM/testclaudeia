@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_virtual_boxes" inherit_id="sale.report_saleorder_document">
+        <!-- Columna Nº Cajas en cabecera -->
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_boxes" class="text-end text-nowrap">Nº Cajas</th>
+        </xpath>
+        <!-- Columna Nº Cajas por línea -->
+        <xpath expr="//td[@name='td_product_quantity']" position="after">
+            <td name="td_product_boxes" class="text-end">
+                <span t-if="line.num_boxes" t-out="line.num_boxes"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

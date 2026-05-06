@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_boxes" inherit_id="account.report_invoice_document">
+        <!-- Columna Cajas en cabecera -->
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_boxes" class="text-end">Cajas</th>
+        </xpath>
+        <!-- Columna Cajas por línea -->
+        <xpath expr="//td[@name='td_quantity']" position="after">
+            <td name="td_boxes" class="text-end">
+                <span t-field="line.num_boxes"/>
+            </td>
+        </xpath>
+        <!-- Totales Unidades y Cajas -->
+        <xpath expr="//div[@id='right-elements']" position="before">
+            <div class="row mb-2" t-if="o.total_boxes or o.total_quantity">
+                <div class="col-12 d-flex justify-content-end gap-4">
+                    <span>
+                        <strong>Total Unidades: </strong>
+                        <span t-field="o.total_quantity"/>
+                    </span>
+                    <span>
+                        <strong>Total Cajas: </strong>
+                        <span t-field="o.total_boxes"/>
+                    </span>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
