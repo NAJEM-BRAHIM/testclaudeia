@@ -1,0 +1,4 @@
+[submodule "NAJEM-BRAHIM/Global-rim-fish"]
+	path = NAJEM-BRAHIM/Global-rim-fish
+	url = git@github.com:NAJEM-BRAHIM/Global-rim-fish.git
+	branch = staging
