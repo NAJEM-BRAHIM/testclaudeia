@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_warehouse_form_access" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.access</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Control de acceso" name="access_control">
+                    <group>
+                        <field name="allowed_user_ids"
+                               widget="many2many_tags"
+                               placeholder="Añadir usuarios..."
+                               help="Solo estos usuarios podrán ver el almacén y sus transferencias. Los gestores de almacén siempre tienen acceso completo."/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

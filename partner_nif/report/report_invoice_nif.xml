@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Añadir NIF en el reporte de facturas (3 bloques según dirección de envío) -->
+    <template id="report_invoice_nif" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.nif" class="mb-0">NIF: <span t-field="o.partner_id.nif"/></div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_address_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.nif" class="mb-0">NIF: <span t-field="o.partner_id.nif"/></div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
+            <div t-if="o.partner_id.nif" class="mb-0">NIF: <span t-field="o.partner_id.nif"/></div>
+        </xpath>
+    </template>
+</odoo>
