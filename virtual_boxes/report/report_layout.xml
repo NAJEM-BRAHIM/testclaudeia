@@ -2,33 +2,49 @@
 <odoo>
     <!--
         Logo a la DERECHA — Dirección empresa a la IZQUIERDA
-        Aplica a todos los layouts de Odoo (striped, boxed, bold, standard, folder, wave)
+        Técnica: reordenación DOM (compatible con wkhtmltopdf)
+        - Se elimina el logo de su posición izquierda
+        - Se inserta después de la dirección (posición derecha)
+        Aplica a: striped, boxed, bold, standard, folder, wave
         El layout "bubble" ya tiene el logo a la derecha por defecto.
     -->
 
     <!-- ════════════════════════════════════════════
          Layout: STRIPED
-         Antes: [LOGO izq] [DIRECCIÓN der]
-         Después: [DIRECCIÓN izq] [LOGO der]
+         Original: [LOGO izq (mw-50)] [DIRECCIÓN der (w-50 ms-3)]
+         Resultado: [DIRECCIÓN izq (w-50)] [LOGO der (mw-50 ms-3)]
     ════════════════════════════════════════════ -->
     <template id="external_layout_striped_logo_right" inherit_id="web.external_layout_striped">
-        <xpath expr="//div[hasclass('d-flex')]" position="attributes">
-            <attribute name="class">d-flex flex-row-reverse</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//div[hasclass('mw-50')]" position="replace"/>
+        <!-- 2. Insertar logo después de la dirección (= derecha) -->
+        <xpath expr="//div[@name='company_address']" position="after">
+            <div class="mw-50 ms-3">
+                <img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                <div t-if="company.report_header" t-field="company.report_header" class="o_company_tagline fw-bold mt-2"/>
+            </div>
         </xpath>
+        <!-- 3. Quitar margen izquierdo de la dirección (ya no lo necesita) -->
         <xpath expr="//div[@name='company_address']" position="attributes">
-            <attribute name="class">w-50 me-3</attribute>
+            <attribute name="class">w-50</attribute>
         </xpath>
     </template>
 
     <!-- ════════════════════════════════════════════
          Layout: BOXED
-         Antes: [LOGO col-4 izq] [DIRECCIÓN col-8 der]
-         Después: [DIRECCIÓN col-8 izq] [LOGO col-4 der]
+         Original: [LOGO col-4 izq] [DIRECCIÓN col-8 text-end der]
+         Resultado: [DIRECCIÓN col-8 text-start izq] [LOGO col-4 der]
     ════════════════════════════════════════════ -->
     <template id="external_layout_boxed_logo_right" inherit_id="web.external_layout_boxed">
-        <xpath expr="//div[hasclass('row') and hasclass('mb8')]" position="attributes">
-            <attribute name="class">row mb8 flex-row-reverse</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//div[hasclass('col-4') and child::img]" position="replace"/>
+        <!-- 2. Insertar logo después de la columna de dirección (= derecha) -->
+        <xpath expr="//div[hasclass('col-8') and hasclass('text-end')]" position="after">
+            <div class="col-4 text-end">
+                <img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+            </div>
         </xpath>
+        <!-- 3. Cambiar alineación del texto de la dirección a izquierda -->
         <xpath expr="//div[hasclass('col-8') and hasclass('text-end')]" position="attributes">
             <attribute name="class">col-8 text-start mb4</attribute>
         </xpath>
@@ -36,35 +52,54 @@
 
     <!-- ════════════════════════════════════════════
          Layout: BOLD
-         Antes: [LOGO col-6 izq] [DIRECCIÓN col-5 der]
-         Después: [DIRECCIÓN col-5 izq] [LOGO col-6 der]
+         Original: [LOGO col-6 izq] [DIRECCIÓN col-5 offset-1 der]
+         Resultado: [DIRECCIÓN col-6 izq] [LOGO col-6 der]
     ════════════════════════════════════════════ -->
     <template id="external_layout_bold_logo_right" inherit_id="web.external_layout_bold">
-        <xpath expr="//div[hasclass('row')]" position="attributes">
-            <attribute name="class">row flex-row-reverse</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//div[hasclass('col-6') and child::img]" position="replace"/>
+        <!-- 2. Insertar logo después de la dirección (= derecha) -->
+        <xpath expr="//div[hasclass('col-5') and hasclass('offset-1')]" position="after">
+            <div class="col-6 text-end">
+                <img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+            </div>
+        </xpath>
+        <!-- 3. Ajustar clase de dirección: col-5 offset-1 → col-6 -->
+        <xpath expr="//div[hasclass('col-5') and hasclass('offset-1')]" position="attributes">
+            <attribute name="class">col-6</attribute>
         </xpath>
     </template>
 
     <!-- ════════════════════════════════════════════
          Layout: STANDARD
-         Antes: [LOGO pequeño izq] [Tagline der]
-         Después: [Tagline izq] [LOGO pequeño der]
+         Original: [LOGO_pequeño izq] [Tagline der]
+         Resultado: [Tagline izq] [LOGO_pequeño der (ms-auto)]
     ════════════════════════════════════════════ -->
     <template id="external_layout_standard_logo_right" inherit_id="web.external_layout_standard">
-        <xpath expr="//div[hasclass('d-flex') and hasclass('justify-content-between')]" position="attributes">
-            <attribute name="class">d-flex flex-row-reverse justify-content-between align-items-center mb-2</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//img[hasclass('o_company_logo_small')]" position="replace"/>
+        <!-- 2. Insertar logo después del tagline con ms-auto para pegarlo a la derecha -->
+        <xpath expr="//div[hasclass('o_company_tagline') and hasclass('mw-50')]" position="after">
+            <img t-if="company.logo" class="o_company_logo_small ms-auto" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
         </xpath>
     </template>
 
     <!-- ════════════════════════════════════════════
          Layout: FOLDER
-         Antes: [LOGO izq] [DIRECCIÓN der]
-         Después: [DIRECCIÓN izq] [LOGO der]
+         Original: [LOGO w-50 izq] [DIRECCIÓN w-50 text-end der]
+         Resultado: [DIRECCIÓN w-50 text-start izq] [LOGO w-50 der]
     ════════════════════════════════════════════ -->
     <template id="external_layout_folder_logo_right" inherit_id="web.external_layout_folder">
-        <xpath expr="//div[hasclass('o_folder_company_info')]" position="attributes">
-            <attribute name="class">o_folder_company_info d-flex flex-row-reverse justify-content-between</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//div[hasclass('w-50') and child::img[hasclass('o_company_logo_big')]]" position="replace"/>
+        <!-- 2. Insertar logo después de la dirección (= derecha) -->
+        <xpath expr="//div[@name='company_address']" position="after">
+            <div class="w-50 ms-3 text-end">
+                <img t-if="company.logo" class="o_company_logo_big mb-2" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                <div t-if="company.report_header" t-field="company.report_header" class="o_company_tagline fw-bold"/>
+            </div>
         </xpath>
+        <!-- 3. Cambiar alineación de la dirección a izquierda -->
         <xpath expr="//div[@name='company_address']" position="attributes">
             <attribute name="class">w-50 text-start</attribute>
         </xpath>
@@ -72,13 +107,20 @@
 
     <!-- ════════════════════════════════════════════
          Layout: WAVE
-         Antes: [LOGO izq] [DIRECCIÓN der]
-         Después: [DIRECCIÓN izq] [LOGO der]
+         Original: [LOGO w-50 izq] [DIRECCIÓN w-50 text-end der]
+         Resultado: [DIRECCIÓN w-50 text-start izq] [LOGO w-50 der]
     ════════════════════════════════════════════ -->
     <template id="external_layout_wave_logo_right" inherit_id="web.external_layout_wave">
-        <xpath expr="//div[hasclass('d-flex') and hasclass('justify-content-between')]" position="attributes">
-            <attribute name="class">d-flex flex-row-reverse justify-content-between</attribute>
+        <!-- 1. Eliminar logo de la posición izquierda -->
+        <xpath expr="//div[hasclass('w-50') and child::img[hasclass('o_company_logo')]]" position="replace"/>
+        <!-- 2. Insertar logo después de la dirección (= derecha) -->
+        <xpath expr="//div[@name='company_address']" position="after">
+            <div class="w-50 ms-3 text-end">
+                <img t-if="company.logo" class="o_company_logo mb-2" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                <div t-if="company.report_header" t-field="company.report_header" class="o_company_tagline fw-bold"/>
+            </div>
         </xpath>
+        <!-- 3. Cambiar alineación de la dirección a izquierda -->
         <xpath expr="//div[@name='company_address']" position="attributes">
             <attribute name="class">w-50 text-start</attribute>
         </xpath>
