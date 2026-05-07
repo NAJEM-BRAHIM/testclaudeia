@@ -2,6 +2,7 @@
 {
     'name': 'Cajas Virtuales',
     'version': '19.0.1.0.0',
+    'author': 'NAJEM-BRAHIM',
     'category': 'Inventory',
     'summary': 'Control de número de cajas en ventas, stock y facturas',
     'depends': ['sale_stock', 'account'],
