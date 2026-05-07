@@ -129,50 +129,9 @@
         </xpath>
     </template>
 
-
-    <!-- ════════════════════════════════════════════
-         Layout: BUBBLE
-         Estructura: tabla con 2 celdas
-         Actual:  [TAGLINE td izq (t-if)] | [LOGO + DIRECCIÓN td der]
-         Objetivo:[DIRECCIÓN td izq]       | [LOGO td der]
-    ════════════════════════════════════════════ -->
-    <template id="external_layout_bubble_logo_right" inherit_id="web.external_layout_bubble">
-        <!-- TEST DIAGNÓSTICO: texto rojo para verificar que el template se aplica -->
-        <xpath expr="//table[hasclass('o_ignore_layout_styling')]" position="before">
-            <p style="color: red; font-weight: bold;">TEMPLATE APLICADO ✓</p>
-        </xpath>
-        <!-- 1. Forzar que la celda izquierda SIEMPRE se muestre (quitar t-if) -->
-        <xpath expr="//td[hasclass('o_company_tagline')]" position="attributes">
-            <attribute name="t-if">1</attribute>
-            <attribute name="class">fw-bold p-0 pe-2</attribute>
-        </xpath>
-        <!-- 2. Añadir la dirección dentro de la celda izquierda -->
-        <xpath expr="//td[hasclass('o_company_tagline')]" position="inside">
-            <div style="font-weight: normal;" class="mt-1">
-                <ul class="list-unstyled" name="company_address_list_left">
-                    <li t-if="company.is_company_details_empty">
-                        <span t-field="company.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
-                    </li>
-                    <li t-else="">
-                        <span t-field="company.company_details"/>
-                    </li>
-                    <li t-if="not forced_vat">
-                        <t t-if="company.vat">
-                            <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
-                            <span t-esc="company.vat"/>
-                        </t>
-                    </li>
-                    <li t-else="">
-                        <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
-                        <span t-esc="forced_vat"/>
-                    </li>
-                </ul>
-            </div>
-        </xpath>
-        <!-- 3. Ocultar la dirección original de la celda derecha (sólo queda el logo) -->
-        <xpath expr="//div[@name='company_address']" position="attributes">
-            <attribute name="style">display: none;</attribute>
-        </xpath>
-    </template>
+    <!--
+         Layout: BUBBLE — modificado directamente en la vista web.external_layout_bubble
+         desde Ajustes > Técnico > Vistas. No se necesita override por código.
+    -->
 
 </odoo>
