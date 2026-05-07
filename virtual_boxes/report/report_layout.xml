@@ -137,6 +137,10 @@
          Objetivo:[DIRECCIÓN td izq]       | [LOGO td der]
     ════════════════════════════════════════════ -->
     <template id="external_layout_bubble_logo_right" inherit_id="web.external_layout_bubble">
+        <!-- TEST DIAGNÓSTICO: texto rojo para verificar que el template se aplica -->
+        <xpath expr="//table[hasclass('o_ignore_layout_styling')]" position="before">
+            <p style="color: red; font-weight: bold;">TEMPLATE APLICADO ✓</p>
+        </xpath>
         <!-- 1. Forzar que la celda izquierda SIEMPRE se muestre (quitar t-if) -->
         <xpath expr="//td[hasclass('o_company_tagline')]" position="attributes">
             <attribute name="t-if">1</attribute>
