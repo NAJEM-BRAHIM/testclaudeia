@@ -5,7 +5,7 @@
     'author': 'NAJEM-BRAHIM',
     'category': 'Inventory',
     'summary': 'Control de número de cajas en ventas, stock y facturas',
-    'depends': ['sale_stock', 'account'],
+    'depends': ['sale_stock', 'account', 'l10n_ma', 'l10n_ma_reports'],
     'data': [
         'views/sale_order_views.xml',
         'views/stock_picking_views.xml',
