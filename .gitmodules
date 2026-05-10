@@ -1,0 +1,4 @@
+[submodule "NAJEM-BRAHIM/cumarex"]
+	path = NAJEM-BRAHIM/cumarex
+	url = git@github.com:NAJEM-BRAHIM/cumarex.git
+	branch = paie
